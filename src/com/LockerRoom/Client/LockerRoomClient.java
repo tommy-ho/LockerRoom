@@ -15,7 +15,7 @@ public class LockerRoomClient implements Runnable {
 	
 	public static void main(String[] args) {
 		//new Thread(LockerRoomClient.getInstance()).start();
-		//pretty sure this is all that goes here
+		//pretty sure this is all that goes here ??
 	}
 	
 	public LockerRoomClient(String n) {

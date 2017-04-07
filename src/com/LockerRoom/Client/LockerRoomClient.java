@@ -1,10 +1,12 @@
+package com.LockerRoom.Client;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
 public class LockerRoomClient implements Runnable {
 
-	private static LockerRoomClient mrc = null;
+	//private static LockerRoomClient lrc = null;
+	private String clientUserName;
 	private Socket socket;
 	private PrintWriter writer;
 	private Scanner sc;
@@ -12,20 +14,20 @@ public class LockerRoomClient implements Runnable {
 	//replace with web in future
 	
 	public static void main(String[] args) {
-		new Thread(LockerRoomClient.getInstance()).start();
+		//new Thread(LockerRoomClient.getInstance()).start();
 		//pretty sure this is all that goes here
 	}
 	
-	protected LockerRoomClient() {
-		//Protected to prevent instantiation from outside
+	public LockerRoomClient(String n) {
+		this.clientUserName = n;
 	}
 	
-	public static LockerRoomClient getInstance(){ //Singleton design pattern
-		if (mrc == null){
-			mrc = new LockerRoomClient();
-		}
-		return mrc;
-	}
+//	public static LockerRoomClient getInstance(){ //Singleton design pattern
+//		if (lrc == null){
+//			lrc = new LockerRoomClient();
+//		}
+//		return lrc;
+//	}
 
 	@Override
 	public void run() {

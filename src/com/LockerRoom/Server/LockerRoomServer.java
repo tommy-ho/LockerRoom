@@ -1,15 +1,16 @@
+package com.LockerRoom.Server;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
 public class LockerRoomServer {
 	
-	private static LockerRoomServer mrs = null;
+	private static LockerRoomServer lrs = null;
 	private ArrayList<Writer> array; //client list
 
 	public static void main(String[] args) {
-		mrs = getInstance();
-		mrs.go();
+		lrs = getInstance();
+		lrs.go();
 
 	}
 	
@@ -18,10 +19,10 @@ public class LockerRoomServer {
 	}
 	
 	public static LockerRoomServer getInstance() {
-		if (mrs == null){
-			mrs = new LockerRoomServer();
+		if (lrs == null){
+			lrs = new LockerRoomServer();
 		}
-		return mrs;
+		return lrs;
 	}
 	
 	public void go(){

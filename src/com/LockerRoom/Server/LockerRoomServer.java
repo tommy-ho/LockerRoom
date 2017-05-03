@@ -3,15 +3,16 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class LockerRoomServer {
+public class LockerRoomServer implements Runnable{
 	
 	private static LockerRoomServer lrs = null;
 	private ArrayList<Writer> array; //client list
-
-	public static void main(String[] args) {
+	
+	@Override
+	public void run() {
 		lrs = getInstance();
 		lrs.go();
-
+		
 	}
 	
 	protected LockerRoomServer() {
@@ -26,6 +27,8 @@ public class LockerRoomServer {
 	}
 	
 	public void go(){
+		
+		System.out.println("Server code started running");
 		array = new ArrayList<Writer>();
 		try {
 			ServerSocket serverSocket = new ServerSocket(5000);
@@ -90,5 +93,6 @@ public class LockerRoomServer {
 		}
 		
 	} //end of inner class
+
 
 }

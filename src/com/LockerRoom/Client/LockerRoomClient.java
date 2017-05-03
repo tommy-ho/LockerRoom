@@ -5,29 +5,17 @@ import java.util.*;
 
 public class LockerRoomClient implements Runnable {
 
-	//private static LockerRoomClient lrc = null;
-	private String clientUserName;
+	private String username;
 	private Socket socket;
 	private PrintWriter writer;
-	private Scanner sc;
-	//use for testing purposes right now for getting message
-	//replace with web in future
-	
-	public static void main(String[] args) {
-		//new Thread(LockerRoomClient.getInstance()).start();
-		//pretty sure this is all that goes here ??
-	}
+	private static ClientArrayList<LockerRoomClient> lrcList;
+
 	
 	public LockerRoomClient(String n) {
-		this.clientUserName = n;
+		this.setUsername(n);
+		if (lrcList == null) lrcList = new ClientArrayList<LockerRoomClient>();
+		lrcList.threadSafeAdd(this);
 	}
-	
-//	public static LockerRoomClient getInstance(){ //Singleton design pattern
-//		if (lrc == null){
-//			lrc = new LockerRoomClient();
-//		}
-//		return lrc;
-//	}
 
 	@Override
 	public void run() {
@@ -38,9 +26,9 @@ public class LockerRoomClient implements Runnable {
 	
 	public void connectToNetwork(){
 		try {
-			System.out.println("Testing");
-			socket = new Socket("192.168.1.175", 5000); //Connect to my Linux server
-			System.out.println("Testing"); //doesnt get here yet
+			socket = new Socket("localhost", 5000); //Connect to my Linux server for chat functionality 192.168.1.175
+													//or localhost Tomcat during testing
+			System.out.println("Client is connected to server");
 			writer = new PrintWriter(socket.getOutputStream());
 			//Set writer's output to the socket's output stream
 		} catch (IOException e){
@@ -48,11 +36,8 @@ public class LockerRoomClient implements Runnable {
 		}
 	}
 	
-	public String getMessage(){  //temp class for testing
-		sc = new Scanner(System.in);
-		System.out.println("Enter msg:");
-		String message = sc.nextLine();
-		return message;
+	public String getMessage(){  //temp class for testing Needs to modify to incorporate web code
+		return "";
 	}
 	
 	public void sendMessage(String message){ //temp class for testing
@@ -61,7 +46,21 @@ public class LockerRoomClient implements Runnable {
 	}
 	
 	
+	public static ClientArrayList<LockerRoomClient> getLrcList() {
+		return lrcList;
+	}
+
+	public static void setLrcList(ClientArrayList<LockerRoomClient> lrcList) {
+		LockerRoomClient.lrcList = lrcList;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	
-	//inner class listener to listen to server responses
 
 }

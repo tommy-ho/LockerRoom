@@ -32,9 +32,9 @@ You can also use below method to retrieve variable:
 
  
 
-<form id="messageForm">
+<form id="messageForm" action="ChatServlet" method="post">
 
-    <input id="message" type="text">
+    <input id="message" name="message" type="text">
 
     <input id="send" type="submit" value="Send">
 

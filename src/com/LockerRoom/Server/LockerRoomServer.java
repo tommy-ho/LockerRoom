@@ -34,8 +34,7 @@ public class LockerRoomServer implements Runnable{
 			ServerSocket serverSocket = new ServerSocket(5000);
 			while (true){
 				Socket clientSocket = serverSocket.accept();
-				PrintWriter writer = 
-						new PrintWriter(clientSocket.getOutputStream());
+				PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
 				array.add(writer);
 				
 				Thread t = new Thread(new ClientManager(clientSocket));
@@ -46,8 +45,7 @@ public class LockerRoomServer implements Runnable{
 		}
 	}
 	
-	public void publishMessage(String message){
-		
+	public void publishMessage(String message){ //sends through the socket output stream
 		Iterator<Writer> it = array.iterator();
 		while (it.hasNext()){
 			try {
@@ -58,10 +56,9 @@ public class LockerRoomServer implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	
-	//Inner class
+	//Inner class reads from the clients
 	public class ClientManager implements Runnable {
 		
 		private Socket clientSock;
@@ -70,8 +67,7 @@ public class LockerRoomServer implements Runnable{
 		public ClientManager(Socket sock){
 			try {
 				clientSock = sock;
-				InputStreamReader isReader = 
-						new InputStreamReader(clientSock.getInputStream());
+				InputStreamReader isReader = new InputStreamReader(clientSock.getInputStream());
 				reader = new BufferedReader(isReader);
 			} catch (Exception e){
 				e.printStackTrace();
@@ -83,7 +79,6 @@ public class LockerRoomServer implements Runnable{
 			String message;
 			try { //Reads from this client
 				while ((message = reader.readLine()) != null){
-					System.out.print("Read: " + message);
 					//Then tells everyone else in the arraylist
 					publishMessage(message);
 				}

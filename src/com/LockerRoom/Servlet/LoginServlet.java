@@ -6,8 +6,8 @@ import javax.servlet.http.*;
 import com.LockerRoom.Client.*;
 import com.LockerRoom.Server.*;
 
-@WebServlet("/LockerRoomServlet")
-public class LockerRoomServlet extends HttpServlet {
+@WebServlet("/LoginServlet")
+public class LoginServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -15,14 +15,15 @@ public class LockerRoomServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static LockerRoomServer lrs;
 
-	public LockerRoomServlet() {
+	public LoginServlet() {
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		if (request.getParameter("signIn") != ""){
 			String username = request.getParameter("signIn");
-			request.setAttribute("username", username);
+			//request.setAttribute("username", username);
+			request.getSession().setAttribute("username", username);
 			System.out.println(username);
 			
 			if (lrs == null){
@@ -30,7 +31,7 @@ public class LockerRoomServlet extends HttpServlet {
 				new Thread(lrs).start();
 			}
 			
-			new ClientThread(new LockerRoomClient(username));
+			new ClientThread(new LockerRoomClient(username)).start();
 				
 			try {
 				request.getRequestDispatcher("chat.jsp").forward(request, response);

@@ -12,4 +12,5 @@ public class ClientArrayList<E> extends ArrayList<E>{
 	public synchronized void threadSafeAdd(E e){
 		super.add(e);
 	}
+	
 }

@@ -1,3 +1,5 @@
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
 
@@ -23,12 +25,31 @@ You can also use below method to retrieve variable:
 <%= request.getAttribute("username") %> 
 -->
  
+<div id="chatBox">
 
-<div id="chatBox"></div>
+<c:set var="messages">
+   <%= session.getAttribute("messages") %>
+</c:set>
+
+<c:forEach var="message" items="${messages}">
+    <c:out value="${message}" /><br />
+</c:forEach>
+
+</div>
 
  
 
-<div id="usersOnLine"></div>
+<div id="usersOnLine">
+
+<c:set var="userList">
+   <%= session.getAttribute("userList") %>
+</c:set>
+
+<c:forEach var="user" items="${userList}">
+    <c:out value="${user}" /><br />
+</c:forEach>
+
+</div>
 
  
 

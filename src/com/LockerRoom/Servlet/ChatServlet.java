@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.LockerRoom.Client.ClientArrayList;
 import com.LockerRoom.Client.LockerRoomClient;
@@ -24,14 +25,12 @@ public class ChatServlet extends HttpServlet {
      */
     public ChatServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -43,7 +42,12 @@ public class ChatServlet extends HttpServlet {
 			String username = (String) request.getSession().getAttribute("username");
 			String message = request.getParameter("message");
 			getUser(username).getMessageFromServlet(message);; //Submits message from JSP form to client for handling
-			processMessage(getUser(username).getMessageBuffer());
+			
+			HttpSession session = request.getSession();
+			
+			processMessage(session, getUser(username).getMessageBuffer());
+			sendUserList(session);
+			
 			request.getRequestDispatcher("chat.jsp").forward(request,response);
 
 		} else {
@@ -68,17 +72,27 @@ public class ChatServlet extends HttpServlet {
 	}
 	
 	
-	//NEXT METHOD TO CODE, process each line and output to jsp page
-	protected void processMessage(ArrayList<String> messageBuffer){
+	protected void processMessage(HttpSession session, ArrayList<String> messageBuffer){
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		session.setAttribute("messages", messageBuffer);
+
 		for (int i = 0; i < messageBuffer.size(); i++){
 			System.out.println(i + " " + messageBuffer.get(i)); //testing
 		}
+	}
+	
+	protected void sendUserList(HttpSession session){
+		ArrayList<String> userList = new ArrayList<String>();
+		for (int i = 0; i < LockerRoomClient.getLrcList().size(); i++){
+			userList.add(LockerRoomClient.getLrcList().get(i).getUsername());
+		}
+		
+		session.setAttribute("userList", userList);
 	}
 	
 	

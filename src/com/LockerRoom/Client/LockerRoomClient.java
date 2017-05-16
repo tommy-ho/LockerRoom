@@ -24,7 +24,6 @@ public class LockerRoomClient implements Runnable {
 	@Override
 	public void run() {
 		connectToNetwork();
-		//peekServerMessage();
 		getMessageFromServer();
 	}
 	
@@ -46,7 +45,6 @@ public class LockerRoomClient implements Runnable {
 	
 	public void getMessageFromServlet(String message){
 		//Servlet doPost packages message, calls the client (referenced through LRC List)
-		//System.out.println("LRC: " + message);
 		sendMessageToServer(this, message);
 	}
 	
@@ -56,13 +54,16 @@ public class LockerRoomClient implements Runnable {
 	}
 	
 	public void getMessageFromServer(){
-
 		String message;
 		
 		try {
 			while ((message = reader.readLine()) != null){
 				messageBuffer.add(message);
-				//send it back to servlet/jsp page
+				
+				if (messageBuffer.size() > 100){
+					while (messageBuffer.size() > 80) messageBuffer.remove(0);
+				}
+				//send it back to servlet/jsp page -- This is the method that refreshes user JSP
 				//sendMessageToServlet(message);
 			}
 		} catch (Exception e){
@@ -72,7 +73,7 @@ public class LockerRoomClient implements Runnable {
 	}
 	
 	public void sendMessageToServlet(String message){
-		//should 
+		//and prompt refresh
 	}
 	
 	public ArrayList<String> getMessageBuffer(){

@@ -19,7 +19,7 @@
 
 
 
-<form id="signInForm" action="LockerRoomServlet" method="post"> <!-- WEB-INF/classes/LockerRoomServlet -->
+<form id="signInForm" action="LoginServlet" method="post"> <!-- WEB-INF/classes/LockerRoomServlet -->
 	<input id="username" name="signIn" type="text">
 	<input id="signInButton" type="submit" value="Enter the room" onclick="">
     <span id="signInName"> MUST BE 18+ TO ENTER</span>

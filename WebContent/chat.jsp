@@ -24,15 +24,40 @@
 You can also use below method to retrieve variable:
 <%= request.getAttribute("username") %> 
 -->
- 
+
 <div id="chatBox">
 
 <c:set var="messages">
    <%= session.getAttribute("messages") %>
 </c:set>
 
-<c:forEach var="message" items="${messages}">
-    <c:out value="${message}" /><br />
+
+<c:forEach var="message" items="${messages}" varStatus="status">
+
+	<c:if test="${status.first}">
+		<c:if test="${status.last}">
+        	${message.replaceFirst("\\[", "").replaceAll("\\]$", "")}  <br />
+        </c:if>
+    </c:if>
+
+	<c:if test="${status.first}">
+		<c:if test="${!status.last}">
+        	${message.replaceFirst("\\[", "")}  <br />
+        </c:if>
+    </c:if>
+    
+    <c:if test="${!status.first}">
+        <c:if test="${!status.last}">
+        	${message}  <br />
+        </c:if>
+    </c:if>
+    
+    <c:if test="${status.last}">
+		<c:if test="${!status.first}">
+        	${message.replaceAll("\\]$", "")}  <br />
+        </c:if>
+    </c:if>
+    
 </c:forEach>
 
 </div>
@@ -46,7 +71,7 @@ You can also use below method to retrieve variable:
 </c:set>
 
 <c:forEach var="user" items="${userList}">
-    <c:out value="${user}" /><br />
+    ${user.replaceFirst("\\[", "").replaceAll("\\]$", "")} <br />
 </c:forEach>
 
 </div>
@@ -57,7 +82,9 @@ You can also use below method to retrieve variable:
 
     <input id="message" name="message" type="text">
 
-    <input id="send" type="submit" value="Send">
+    <input id="send" type="submit" name="request" value="Send">
+    
+    <input id="refresh" type="submit" name="request" value="Refresh">
 
 <div id="serverRes"></div>
 

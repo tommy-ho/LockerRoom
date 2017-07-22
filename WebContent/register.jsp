@@ -34,8 +34,8 @@
           <input name="password" type="password" id="fieldPassword" class="input" required pattern=.*\S.* />
           <label for="fieldPassword" class="label">Password</label>
         </div>
-        <div class="profile__footer">
-          <button name="request" value="login" type="submit" id="login" class="btn">Enter the room</button>
+		<div class="profile__footer">
+          <button name="request" value="register" type="submit" id="register" class="btn">Sign up</button>
         </div>
       </div>
      </div>

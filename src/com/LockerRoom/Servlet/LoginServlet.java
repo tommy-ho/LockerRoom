@@ -37,6 +37,8 @@ public class LoginServlet extends HttpServlet {
 			doRegister(request, response);
 		} else if (req.equals("login")){
 			doLogin(request, response);
+		} else if (req.equals("changePW")){
+			doChangePW(request, response);
 		}
 	}
 
@@ -87,14 +89,14 @@ public class LoginServlet extends HttpServlet {
 			try {
 				if (LockerRoomRegistrar.checkUserExist(username)){
 					if (LockerRoomRegistrar.checkPW(username, password)){
-						if (lrs == null){
-							lrs = LockerRoomServer.getInstance();
-							new Thread(lrs).start();;
-						}
 						if (LockerRoomRegistrar.isUserLoggedIn(username)){
 							request.getSession().setAttribute("status", "This account is already logged in...");
 							request.getRequestDispatcher("login.jsp").forward(request, response);
 						} else {
+							if (lrs == null){
+								lrs = LockerRoomServer.getInstance();
+								new Thread(lrs).start();;
+							}
 							new ClientThread(new LockerRoomClient(username)).start();
 							sendUserList(request.getSession());
 							request.getRequestDispatcher("chat.jsp").forward(request, response);
@@ -113,6 +115,10 @@ public class LoginServlet extends HttpServlet {
 		} else {
 			response.sendRedirect("index.jsp");
 		}
+	}
+	
+	private void doChangePW(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.sendRedirect("changePW.jsp");
 	}
 
 }

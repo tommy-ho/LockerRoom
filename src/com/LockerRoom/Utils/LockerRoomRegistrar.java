@@ -63,14 +63,17 @@ public class LockerRoomRegistrar {
 	public static boolean checkPW(String username, String pw) throws IOException{
 		HashMap<String,String> registeredUsers = getRegisteredUsers();
 		if (LockerRoomCipher.decryptPW(registeredUsers.get(username)).equals(pw)){
-			System.out.println(LockerRoomCipher.decryptPW(registeredUsers.get(username)) + " : password matched!");
+			System.out.println("Password matched for " + username);
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	public static void changePW(String username, String oldpw, String newpw) throws IOException{
+	public static boolean changePW(String username, String oldpw, String newpw) throws IOException{
+		if (!checkUserExist(username)){
+			return false;
+			}
 		if (checkPW(username, oldpw)) {
 			File file = new File("users.txt");
 			File outputFile = new File("output.txt");
@@ -90,6 +93,9 @@ public class LockerRoomRegistrar {
 			file.renameTo(new File("users-backup.txt"));
 			outputFile.renameTo(new File("users.txt"));
 			addUserToFile(username, newpw);
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
@@ -103,8 +109,8 @@ public class LockerRoomRegistrar {
 		    String line;
 		    
 		    while ((line = br.readLine()) != null) {
-		    	String[] lineArray= line.split(Pattern.quote("///"));
-		    	creds.put(lineArray[0], lineArray[1]);	
+		    	String[] lineArray = line.split(Pattern.quote("///"));
+		    	if (lineArray != null) {creds.put(lineArray[0], lineArray[1]);}	
 		    }
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -130,7 +136,7 @@ public class LockerRoomRegistrar {
 			FileWriter fw = new FileWriter(file, true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.newLine();
-			bw.write(username + "/" + pw);
+			bw.write(username + "///" + pw);
 			bw.flush();
 			bw.close();
 			
@@ -138,50 +144,4 @@ public class LockerRoomRegistrar {
 			e.printStackTrace();
 		}
 	}
-	
-//	private static String encryptPW(String pw){
-//		byte[] pwBytes = pw.getBytes();
-//    	byte[] keyBytes = "0123456789abcdef".getBytes();
-//    	SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
-//    	String iv = null;
-//        try {
-//        	Cipher ciph = Cipher.getInstance("AES/CBC/PKCS5Padding");
-//            ciph.init(Cipher.ENCRYPT_MODE, keySpec);
-//            pw = Base64.getEncoder().encodeToString(ciph.doFinal(pwBytes));
-//            iv = Base64.getEncoder().encodeToString(ciph.getIV());
-//            
-//    		for (byte b : pwBytes){
-//    			System.out.print(b);
-//    		}
-//    		System.out.println();
-//		} catch (Exception e){
-//			e.printStackTrace();
-//		}
-//		return iv + "|" + pw;
-//	}
-//	
-//	private static String decryptPW(String pw){
-//    	String[] lineArray= pw.split(Pattern.quote("|||"));
-//
-//		byte[] pwBytes = Base64.getDecoder().decode(lineArray[1].getBytes());
-//		for (byte b : pwBytes){
-//			System.out.print(b);
-//		}
-//		System.out.println();
-//		
-//		byte[] ivBytes = Base64.getDecoder().decode(lineArray[0].getBytes());
-//    	byte[] keyBytes = "0123456789abcdef".getBytes();
-//    	SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
-//        try {
-//			Cipher ciph = Cipher.getInstance("AES/CBC/PKCS5Padding");
-//            ciph.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(ivBytes));
-//            pw = new String(ciph.doFinal(pwBytes));    
-//		} catch (Exception e){
-//			e.printStackTrace();
-//		}
-//		return pw;
-//	}
-	
-	
-
 }

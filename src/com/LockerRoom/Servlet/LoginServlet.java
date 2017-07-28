@@ -15,7 +15,7 @@ import com.LockerRoom.Utils.LockerRoomRegistrar;
 * @author  Tommy Ho
 * */
 @WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends LockerRoomServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static LockerRoomServer lrs;
@@ -37,28 +37,8 @@ public class LoginServlet extends HttpServlet {
 			doRegister(request, response);
 		} else if (req.equals("login")){
 			doLogin(request, response);
-		} else if (req.equals("changePW")){
-			doChangePW(request, response);
 		}
 	}
-
-	/**
-	 * This method iterates through the static ArrayList of clients in the
-	 * LockerRoomClient class, and stores that in the HttpSession object
-	 * for the JSP pages to access.
-	 *
-	 * @param
-	 * @return
-	 * @see
-	 */
-	private void sendUserList(HttpSession session){
-		ArrayList<String> userList = new ArrayList<String>();
-		for (int i = 0; i < LockerRoomClient.getLrcList().size(); i++){
-			userList.add(LockerRoomClient.getLrcList().get(i).getUsername());
-		}
-		session.setAttribute("userList", userList);
-	}
-	//deleted processMessage() and getUser()
 	
 	private void doRegister(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		String username = request.getParameter("signIn");
@@ -115,10 +95,6 @@ public class LoginServlet extends HttpServlet {
 		} else {
 			response.sendRedirect("index.jsp");
 		}
-	}
-	
-	private void doChangePW(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.sendRedirect("changePW.jsp");
 	}
 
 }

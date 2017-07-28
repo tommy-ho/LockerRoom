@@ -46,7 +46,7 @@
 </form>
 
 <div class="profile__topRight">
-	<a href="http://localhost:8080/LockerRoom/changePW.jsp"><button class="btn">Change password</button></a>
+	<a href="http://localhost:8080/LockerRoom/changepw.jsp"><button class="btn">Change password</button></a>
 </div>
 
 </body>

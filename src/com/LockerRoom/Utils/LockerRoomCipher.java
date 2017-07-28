@@ -17,27 +17,34 @@ class LockerRoomCipher {
         try {
         	Cipher ciph = Cipher.getInstance("AES/CBC/PKCS5Padding");
             ciph.init(Cipher.ENCRYPT_MODE, keySpec);
-            pw = Base64.getEncoder().encodeToString(ciph.doFinal(pwBytes));
-            iv = Base64.getEncoder().encodeToString(ciph.getIV());
             
-    		for (byte b : pwBytes){
+            ////////////////////printing encrypted, pre-encoded bytes
+        	for (byte b : ciph.doFinal(pwBytes)){
     			System.out.print(b);
     		}
     		System.out.println();
+    		///////////////////////
+    		
+            pw = Base64.getEncoder().encodeToString(ciph.doFinal(pwBytes));
+            iv = Base64.getEncoder().encodeToString(ciph.getIV());
+            
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-		return iv + "|" + pw;
+		return iv + "|||" + pw;
 	}
 	
 	static String decryptPW(String pw){
     	String[] lineArray= pw.split(Pattern.quote("|||"));
 
 		byte[] pwBytes = Base64.getDecoder().decode(lineArray[1].getBytes());
+		
+		/////////////////////printing decoded, still encrypted bytes
 		for (byte b : pwBytes){
 			System.out.print(b);
 		}
 		System.out.println();
+		//////////////////////
 		
 		byte[] ivBytes = Base64.getDecoder().decode(lineArray[0].getBytes());
     	byte[] keyBytes = "0123456789abcdef".getBytes();

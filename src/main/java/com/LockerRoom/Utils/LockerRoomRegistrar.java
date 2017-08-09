@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -155,6 +157,7 @@ public class LockerRoomRegistrar {
 			}
 		if (checkPW(username, oldpw)) {
 			File file = new File("users.txt");
+			File backupFile = new File("users-backup.txt");
 			File outputFile = new File("output.txt");
 			FileWriter fw = new FileWriter(outputFile, true);
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -169,8 +172,9 @@ public class LockerRoomRegistrar {
 		    bw.flush();
 		    bw.close();
 			br.close();
-			file.renameTo(new File("users-backup.txt"));
-			outputFile.renameTo(new File("users.txt"));
+			backupFile.delete();
+			file.renameTo(backupFile);
+			outputFile.renameTo(file);
 			addUserToFile(username, newpw);
 			return true;
 		} else {
@@ -226,9 +230,38 @@ public class LockerRoomRegistrar {
 			bw.newLine();
 			bw.flush();
 			bw.close();
-			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static boolean removeUser(String username, String pw) throws IOException {
+		if (!checkUserExist(username)){
+			return false;
+			}
+		if (checkPW(username, pw)) {
+			File file = new File("users.txt");
+			File backupFile = new File("users-backup.txt");
+			File outputFile = new File("output.txt");
+			FileWriter fw = new FileWriter(outputFile, true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			BufferedReader br = new BufferedReader(new FileReader(file));
+		    String line;
+		    while ((line = br.readLine()) != null) {
+		    	if (!username.equals(line.split(Pattern.quote("///"))[0])){
+		    		bw.write(line);
+		    		bw.newLine();
+		    	}
+		    }
+		    bw.flush();
+		    bw.close();
+			br.close();
+			backupFile.delete();
+			file.renameTo(backupFile);
+			outputFile.renameTo(file);
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

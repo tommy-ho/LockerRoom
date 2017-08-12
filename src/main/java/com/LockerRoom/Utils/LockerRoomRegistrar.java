@@ -152,9 +152,10 @@ public class LockerRoomRegistrar {
 	 * @see #addUserToFile(String, String)
 	 */
 	public static boolean changePW(String username, String oldpw, String newpw) throws IOException{
-		if (!checkUserExist(username)){
+		if (!checkUserExist(username) || newpw.equals("")) {
 			return false;
-			}
+		}
+		
 		if (checkPW(username, oldpw)) {
 			File file = new File("users.txt");
 			File backupFile = new File("users-backup.txt");

@@ -46,21 +46,15 @@ public class ChatServlet extends LockerRoomServlet {
 			refreshMessages(request, response);
 		} else if (req.equals("Send")) {
 			if (request.getParameter("message") != ""){
-				HttpSession session = request.getSession();
-				String username = (String) session.getAttribute("username");
-				String message = request.getParameter("message");
-				getUser(username).getMessageFromServlet(message);;
-				
-				processMessage(session, getUser(username).getMessageBuffer());
-				sendUserList(session);
-				
-				request.getRequestDispatcher("chat.jsp").forward(request,response);
+				sendMessage(request, response);
 			} else {
 				refreshMessages(request, response);
 			}
+		} else if (req.equals("Disconnect")){
+			promptDisconnect(request, response);
 		}
 	}
-	
+
 	/**
 	 * processMessage() takes the messages stored in each LockerRoomClient
 	 * and stores it in a HttpSession object. The JSP pages will read from
@@ -105,5 +99,32 @@ public class ChatServlet extends LockerRoomServlet {
 		request.getRequestDispatcher("chat.jsp").forward(request, response);
 	}
 	
-
+	/**
+	 * This method accesses the LockerRoomClient's message buffer array,
+	 * and runs processMessage(), and also utilizes the LockerRoomClient's
+	 * getMessageFromServlet() method to send the message.
+	 *
+	 * @param
+	 * @return
+	 * @see #processMessage(HttpSession, ArrayList)
+	 * @see #sendUserList(HttpSession)
+	 */
+	private void sendMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		HttpSession session = request.getSession();
+		String username = (String) session.getAttribute("username");
+		String message = request.getParameter("message");
+		getUser(username).getMessageFromServlet(message);;
+		processMessage(session, getUser(username).getMessageBuffer());
+		sendUserList(session);
+		request.getRequestDispatcher("chat.jsp").forward(request,response);
+	}
+	
+	private void promptDisconnect(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String username = (String) session.getAttribute("username");
+		getUser(username).disconnectFromServer();
+		request.getSession().setAttribute("status", "You have left the room...");
+		request.getRequestDispatcher("disconnected.jsp").forward(request,response);
+	}
+	
 }

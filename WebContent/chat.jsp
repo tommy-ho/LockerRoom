@@ -85,6 +85,8 @@ You can also use below method to retrieve variable:
     <input id="send" type="submit" name="request" value="Send">
     
     <input id="refresh" type="submit" name="request" value="Refresh">
+    
+    <input id ="disconnect" type="submit" name="request" value="Disconnect">
 
 <div id="serverRes"></div>
 

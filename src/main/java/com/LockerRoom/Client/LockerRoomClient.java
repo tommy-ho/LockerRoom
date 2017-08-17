@@ -139,18 +139,14 @@ public class LockerRoomClient implements Runnable {
 	//Not Used
 	public void sendMessageToServlet(){
 		//This is the method that refreshes user JSP periodically? per message? and prompt refresh
-
-		
 		String url = "http://localhost:8080/LockerRoom/ChatServlet";
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost post = new HttpPost(url);
 		//HttpGet get = new HttpGet(url);
 		
-		
 		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 		postParameters.add(new BasicNameValuePair("message", new String("")));
 		postParameters.add(new BasicNameValuePair("username", this.getUsername()));
-
 
 		try {
 			post.setEntity(new UrlEncodedFormEntity(postParameters));
@@ -163,8 +159,12 @@ public class LockerRoomClient implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+	}
+
+	public void disconnectFromServer() {
+		String disconnectMessage = "!disconnect";
+		lrcList.remove(this); //not sure if this works
+		sendMessageToServer(this, disconnectMessage);
 	}
 	
 	public ArrayList<String> getMessageBuffer(){
@@ -186,6 +186,5 @@ public class LockerRoomClient implements Runnable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
 
 }

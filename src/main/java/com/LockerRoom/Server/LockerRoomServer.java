@@ -2,6 +2,7 @@ package com.LockerRoom.Server;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 	/**
  	 * This Runnable class consists of the LockerRoom code that actively listens for
@@ -133,7 +134,8 @@ public class LockerRoomServer implements Runnable{
 		/**
 		 * The run() method here overrides the method inherited from the Runnable interface.
 		 * Starting a new thread, it reads from the client via the ClientManager's InputStreamReader
-		 * and passes the message to the outer class LockerRoomServer to handle.
+		 * and passes the message to the outer class LockerRoomServer to handle. If it receives
+		 * a disconnect message from the client, it will publish a message and terminate thread.
 		 *
 		 * @param
 		 * @return
@@ -145,6 +147,10 @@ public class LockerRoomServer implements Runnable{
 			try {
 				while ((message = reader.readLine()) != null){
 					publishMessage(message);
+					if (message.contains("!disconnect")) {
+						publishMessage(message.split(Pattern.quote(":"))[0] + " has have left the room...");
+						return;
+					}
 				}
 			} catch (Exception e){
 				e.printStackTrace();

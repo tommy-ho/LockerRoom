@@ -60,7 +60,7 @@ public class LoginServlet extends LockerRoomServlet {
 	}
 	
 	private void doLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		if (request.getParameter("signIn").equals("")){
+		if (!request.getParameter("signIn").equals("")){
 			String username = request.getParameter("signIn");
 			String password = request.getParameter("password");
 			request.getSession().setAttribute("username", username);

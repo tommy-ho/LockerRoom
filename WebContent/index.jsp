@@ -35,7 +35,7 @@
           <button name="request" value="login" type="submit" id="login" class="btn">Enter the room</button>
         </div>
 		<div class="profile__footer">
-          <button name="request" value="register" type="submit" id="register" class="btn">Sign up</button>
+          <button name="request" value="register" type="submit" id="register" class="btn">Sign up for new account</button>
         </div>
       </div>
      </div>

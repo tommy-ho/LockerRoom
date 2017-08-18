@@ -12,6 +12,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.LockerRoom.Utils.LockerRoomRegistrar;
+
 /**
 	 * The LockerRoomClient class implements Runnable, and is meant to be started as a
 	 * thread. Upon starting the thread, it connects to the server side code, and
@@ -163,8 +165,10 @@ public class LockerRoomClient implements Runnable {
 
 	public void disconnectFromServer() {
 		String disconnectMessage = "!disconnect";
-		lrcList.remove(this); //not sure if this works
+		lrcList.remove(this);
+		LockerRoomRegistrar.modifyLoggedInUsersList("remove", this.username);
 		sendMessageToServer(this, disconnectMessage);
+		return;
 	}
 	
 	public ArrayList<String> getMessageBuffer(){

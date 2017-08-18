@@ -17,7 +17,7 @@
   <!--Google Font - Work Sans-->
 <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,700' rel='stylesheet' type='text/css'>
 
-<form id="signInForm" action="LoginServlet" method="post"> <!-- WEB-INF/classes/LockerRoomServlet -->
+<form id="signInForm" action="DeleteAccountServlet" method="post"> <!-- WEB-INF/classes/LockerRoomServlet -->
 <div class="container">
   <div class="profile--open">
   	<button class="profile__avatar" id="toggleProfile">
@@ -34,8 +34,12 @@
           <input name="password" type="password" id="fieldPassword" class="input" required pattern=.*\S.* />
           <label for="fieldPassword" class="label">Password</label>
         </div>
-		<div class="profile__footer">
-          <button name="request" value="register" type="submit" id="register" class="btn">Sign up</button>
+        <div class="field">
+          <input name="confirmPassword" type="password" id="fieldPassword" class="input" required pattern=.*\S.* />
+          <label for="fieldPassword" class="label">Confirm password</label>
+        </div>
+        <div class="profile__footer">
+          <button name="request" value="delete" type="submit" id="delete" class="btn">Leave the brotherhood</button>
         </div>
       </div>
      </div>

@@ -85,8 +85,27 @@ public class LockerRoomRegistrar {
 		if (loggedInUsers.contains(username)){
 			return true;
 		} else {
-			loggedInUsers.add(username);
+			modifyLoggedInUsersList("add", username);
 			return false;
+		}
+	}
+	
+	/**
+	 * The modifyLoggedInUsersList() gives the user access to either add to
+	 * or remove from the loggedInUsers ArrayList. It takes two String parameters:
+	 * the first one is the function to perform, which can be "add" or "remove",
+	 * and the second one is the username.
+	 *
+	 * @param function the desired operation to be performed with the username
+	 * @param username the user desired to be added or removed
+	 * @return
+	 * @see
+	 */
+	public static void modifyLoggedInUsersList(String function, String username){
+		if (function.equals("add")){
+			loggedInUsers.add(username);
+		} else if (function.equals("remove")){
+			loggedInUsers.remove(username);
 		}
 	}
 	

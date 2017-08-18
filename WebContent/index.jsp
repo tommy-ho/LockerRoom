@@ -46,7 +46,11 @@
 </form>
 
 <div class="profile__topRight">
-	<a href="http://localhost:8080/LockerRoom/changepw.jsp"><button class="btn">Change password</button></a>
+	<a href="http://localhost:8080/LockerRoom/index.jsp"><button class="btn">Home</button></a><br>
+	<a href="http://localhost:8080/LockerRoom/login.jsp"><button class="btn">Enter</button></a><br>
+	<a href="http://localhost:8080/LockerRoom/register.jsp"><button class="btn">Register</button></a><br>
+	<a href="http://localhost:8080/LockerRoom/changepw.jsp"><button class="btn">Change</button></a><br>
+	<a href="http://localhost:8080/LockerRoom/deleteaccount.jsp"><button class="btn">Delete</button></a>
 </div>
 
 </body>

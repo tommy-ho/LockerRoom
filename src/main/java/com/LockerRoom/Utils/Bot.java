@@ -7,6 +7,13 @@ import java.util.regex.Pattern;
 
 import com.LockerRoom.Client.LockerRoomClient;
 
+/**
+	 * Bot extends LockerRoomClient and mimics all behaviors of
+	 * being a real client, except it is entirely controlled by code
+	 * and reacts to messages and commands given by users.
+	 * 
+ * @author  Tommy Ho
+ * */
 public class Bot extends LockerRoomClient{
 	
 	private String botName;

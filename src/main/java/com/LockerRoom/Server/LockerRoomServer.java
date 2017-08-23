@@ -4,6 +4,10 @@ import java.net.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import com.LockerRoom.Client.ClientThread;
+import com.LockerRoom.Client.LockerRoomClient;
+import com.LockerRoom.Utils.Bot;
+
 	/**
  	 * This Runnable class consists of the LockerRoom code that actively listens for
  	 * new LockerRoomClient objects, and manages existing clients in a list. The subclass
@@ -147,15 +151,26 @@ public class LockerRoomServer implements Runnable{
 			try {
 				while ((message = reader.readLine()) != null){
 					publishMessage(message);
-					if (message.contains("!disconnect")) {
-						publishMessage(message.split(Pattern.quote(":"))[0] + " has have left the room...");
-						return;
+					
+					if (Pattern.matches("^.*: !.*$", message)) {
+						processCommand(message);
 					}
 				}
 			} catch (Exception e){
 				e.printStackTrace();
 			}
 		}
+		
+		private void processCommand(String command){
+			if (Pattern.matches("^.*: !disconnect$", command)){
+				publishMessage(command.split(Pattern.quote(":"))[0] + " has have left the room...");
+				return;
+			} else if (Pattern.matches("^.*: !bot [^\\s]+$", command)){
+				String[] split = command.split("!bot ");
+				new ClientThread(new Bot(split[1])).start();
+			}
+		}
+		
 		
 	} //end of inner class
 

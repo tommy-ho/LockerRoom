@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +60,6 @@ public class BotTest {
 			{"Bobby", "Billy", "Joel", "Tommy", "Michael", "Jon"};
 		for (int i = 0; i < 1000; i++){
 			result = (String) method.invoke(bot, (Object) choices);
-			System.out.println(result);
 			assertTrue(result.getClass().equals(String.class));
 			assertTrue(result.equals(choices[0]) ||
 						result.equals(choices[1]) ||
@@ -68,6 +68,15 @@ public class BotTest {
 						result.equals(choices[4]) ||
 						result.equals(choices[5]));
 		}
+	}
+	
+	@Test
+	public void checkTimeReturnsTimeInCorrectFormat() throws Exception{
+		Method method = Bot.class.getDeclaredMethod("checkTime");
+		method.setAccessible(true);
+		String result = (String) method.invoke(bot);
+		assertTrue(Pattern.matches
+				("[0-9]{2}/[0-9]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}", result));
 	}
 
 }

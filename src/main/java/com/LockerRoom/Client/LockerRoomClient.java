@@ -30,7 +30,7 @@ public class LockerRoomClient implements Runnable {
 	private BufferedReader reader;
 	private ArrayList<String> messageBuffer;
 	private static ClientArrayList<LockerRoomClient> lrcList;
-
+	
 	/**
 	 * This constructor takes a String variable (representing the username) as a parameter
 	 * to instantiate a LockerRoomClient object. It then adds the client to a list of

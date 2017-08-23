@@ -1,14 +1,19 @@
 package com.LockerRoom.Utils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-public class Bot {
+import com.LockerRoom.Client.LockerRoomClient;
+
+public class Bot extends LockerRoomClient{
 	
-	String botName;
+	private String botName;
 
 	public Bot(String name) {
-		botName = name;
+		super(name);
+		botName = super.getUsername();
 	}
 	
 	public String doCommand(String command){
@@ -19,6 +24,8 @@ public class Bot {
 		} else if (command.equals(Pattern.quote("!choose"))){
 			String[] choice = command.split(" ");
 			return choose(choice);
+		} else if (command.equals("!time")){
+			return "System time: " + checkTime();
 		}
 		return command;
 	}
@@ -40,6 +47,11 @@ public class Bot {
 	private String choose(String[] args){
 		Random random = new Random();
 		return args[random.nextInt(args.length)];
+	}
+	
+	private String checkTime(){
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		return dateFormat.format(System.currentTimeMillis());
 	}
 
 }

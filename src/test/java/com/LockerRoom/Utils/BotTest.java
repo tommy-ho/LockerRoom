@@ -78,5 +78,12 @@ public class BotTest {
 		assertTrue(Pattern.matches
 				("[0-9]{2}/[0-9]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}", result));
 	}
+	
+	@Test
+	public void doCommandCallsChooseMethodProperly(){
+		String result = bot.doCommand("!choose A B");
+		result = result.split(": ")[1];
+		assertTrue(result.equals("A") || result.equals("B"));
+	}
 
 }

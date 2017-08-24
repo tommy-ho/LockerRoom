@@ -23,13 +23,13 @@ import com.LockerRoom.Utils.LockerRoomRegistrar;
  * */
 public class LockerRoomClient implements Runnable {
 
-	private String username;
-	private Socket socket;
-	private PrintWriter writer;
-	private InputStreamReader isReader;
-	private BufferedReader reader;
-	private ArrayList<String> messageBuffer;
-	private static ClientArrayList<LockerRoomClient> lrcList;
+	protected String username;
+	protected Socket socket;
+	protected PrintWriter writer;
+	protected InputStreamReader isReader;
+	protected BufferedReader reader;
+	protected ArrayList<String> messageBuffer;
+	protected static ClientArrayList<LockerRoomClient> lrcList;
 	
 	/**
 	 * This constructor takes a String variable (representing the username) as a parameter
@@ -71,7 +71,7 @@ public class LockerRoomClient implements Runnable {
 	 * @return
 	 * @see
 	 */
-	private void connectToNetwork(){
+	protected void connectToNetwork(){
 		try {
 			socket = new Socket("localhost", 5000);
 			//Connect to my Linux server for chat functionality 192.168.1.175
@@ -90,12 +90,15 @@ public class LockerRoomClient implements Runnable {
 	 * Through this method, the LockerRoomClient (and its thread) will continually
 	 * listen to the server for broadcasted messages and store it in an array for
 	 * the user to access when refreshing their pages.
+	 * <p>
+	 * Changed from private to protected to allow Bot subclass access from
+	 * another package
 	 *
 	 * @param
 	 * @return
 	 * @see
 	 */
-	private void getMessageFromServer(){
+	protected void getMessageFromServer(){
 		String message;
 		
 		try {
@@ -125,42 +128,20 @@ public class LockerRoomClient implements Runnable {
 	}
 	
 	/**
-	 * This is a private method only called on by the getMessageFromServlet() method.
+	 * This is a protected method only called on by the getMessageFromServlet() method.
 	 * The method takes the message and utilizes the PrintWriter that is connected
 	 * to the output stream to submit messages to the server side code.
+	 * <p>
+	 * Changed from private to protected to allow Bot subclass access from
+	 * another package
 	 *
 	 * @param message the text submitted by the user
 	 * @return
 	 * @see #sendMessageToServer(LockerRoomClient, String)
 	 */
-	private void sendMessageToServer(LockerRoomClient client, String message){ 
+	protected void sendMessageToServer(LockerRoomClient client, String message){ 
 		writer.println(client.username + ": " + message);
 		writer.flush();
-	}
-	
-	//Not Used
-	public void sendMessageToServlet(){
-		//This is the method that refreshes user JSP periodically? per message? and prompt refresh
-		String url = "http://localhost:8080/LockerRoom/ChatServlet";
-		HttpClient httpClient = HttpClientBuilder.create().build();
-		HttpPost post = new HttpPost(url);
-		//HttpGet get = new HttpGet(url);
-		
-		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
-		postParameters.add(new BasicNameValuePair("message", new String("")));
-		postParameters.add(new BasicNameValuePair("username", this.getUsername()));
-
-		try {
-			post.setEntity(new UrlEncodedFormEntity(postParameters));
-			HttpResponse response = httpClient.execute(post);
-			//HttpResponse response = httpClient.execute(get);
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public void disconnectFromServer() {

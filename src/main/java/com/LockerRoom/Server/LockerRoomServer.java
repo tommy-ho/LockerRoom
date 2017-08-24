@@ -20,6 +20,7 @@ public class LockerRoomServer implements Runnable{
 	
 	private static LockerRoomServer lrs = null;
 	private ArrayList<Writer> clientWriterArrayList; //client list
+	private boolean botExist;
 	
 	private LockerRoomServer() {
 		//Private to prevent instantiation from outside
@@ -166,8 +167,11 @@ public class LockerRoomServer implements Runnable{
 				publishMessage(command.split(Pattern.quote(":"))[0] + " has have left the room...");
 				return;
 			} else if (Pattern.matches("^.*: !bot [^\\s]+$", command)){
-				String[] split = command.split("!bot ");
-				new ClientThread(new Bot(split[1])).start();
+				if (botExist == false){
+					String[] split = command.split("!bot ");
+					new ClientThread(new Bot(split[1])).start();
+					botExist = true;
+				}
 			}
 		}
 		

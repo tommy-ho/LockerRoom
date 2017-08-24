@@ -14,13 +14,34 @@ import com.LockerRoom.Client.LockerRoomClient;
 	 * 
  * @author  Tommy Ho
  * */
-public class Bot extends LockerRoomClient{
+public class Bot extends LockerRoomClient implements Runnable {
 	
-	private String botName;
-
 	public Bot(String name) {
 		super(name);
-		botName = super.getUsername();
+	}
+	
+	public void run() {
+		super.connectToNetwork();
+		getMessageFromServer();
+	}
+	
+	protected void getMessageFromServer(){
+		String message;
+		
+		try {
+			while ((message = reader.readLine()) != null){
+				if (message.matches("^.*: ![^\\s]+.*$")){
+					String[] unameSplitCmd = message.split(": ");
+					//Avoid interpreting bot messages as commands
+					if (!unameSplitCmd[0].equals(username)){
+						sendMessageToServer(this, doCommand(unameSplitCmd[1]));
+						//modify the command to record only commands
+					}
+				}
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public String doCommand(String command){
@@ -28,9 +49,10 @@ public class Bot extends LockerRoomClient{
 			return "You have rolled a: " + rollDice();
 		} else if (command.equals("!flip")){
 			return "Your coin flipped: " + flipCoin();
-		} else if (command.equals(Pattern.quote("!choose"))){
+		} else if (command.matches("!choose .+$")){
+			System.out.println("test");
 			String[] choice = command.split(" ");
-			return choose(choice);
+			return "I choose: " + choose(choice);
 		} else if (command.equals("!time")){
 			return "System time: " + checkTime();
 		}
@@ -53,7 +75,9 @@ public class Bot extends LockerRoomClient{
 	
 	private String choose(String[] args){
 		Random random = new Random();
-		return args[random.nextInt(args.length)];
+		int randomNumber = random.nextInt(args.length);
+		if (randomNumber == 0) { randomNumber++; }
+		return args[randomNumber];
 	}
 	
 	private String checkTime(){

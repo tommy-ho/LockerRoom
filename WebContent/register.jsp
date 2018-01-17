@@ -21,7 +21,7 @@
 <div class="container">
   <div class="profile--open">
   	<button class="profile__avatar" id="toggleProfile">
-    	<img src="images/dogbro.jpg" alt="Avatar" /> 
+    	<img src="images/register.png" alt="Avatar" /> 
     </button>
     <div class="profile__form">
       <div class="profile__fields">

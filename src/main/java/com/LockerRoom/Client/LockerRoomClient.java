@@ -2,16 +2,6 @@ package com.LockerRoom.Client;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
-
 import com.LockerRoom.Utils.LockerRoomRegistrar;
 
 /**

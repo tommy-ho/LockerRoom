@@ -3,9 +3,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.regex.Pattern;
-
 import com.LockerRoom.Client.ClientThread;
-import com.LockerRoom.Client.LockerRoomClient;
 import com.LockerRoom.Utils.Bot;
 
 	/**
@@ -37,8 +35,6 @@ public class LockerRoomServer implements Runnable{
 	 */
 	@Override
 	public void run() {
-//		lrs = getInstance();
-//		lrs.go();
 		go();
 	}
 	
@@ -170,13 +166,19 @@ public class LockerRoomServer implements Runnable{
 				if (botExist == false){
 					String[] split = command.split("!bot ");
 					new ClientThread(new Bot(split[1])).start();
+					try {
+						/**
+						 * Thread sleeps, giving time for Bot thread to start and run,
+						 * before the servlet runs sendUserList()
+						 */
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					botExist = true;
 				}
 			}
 		}
-		
-		
+
 	} //end of inner class
-
-
 }

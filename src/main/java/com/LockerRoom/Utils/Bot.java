@@ -3,8 +3,6 @@ package com.LockerRoom.Utils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Random;
-import java.util.regex.Pattern;
-
 import com.LockerRoom.Client.LockerRoomClient;
 
 /**

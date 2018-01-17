@@ -1,15 +1,13 @@
 package com.LockerRoom.Servlet;
+
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.LockerRoom.Client.ClientArrayList;
 import com.LockerRoom.Client.LockerRoomClient;
 
 
@@ -122,6 +120,11 @@ public class ChatServlet extends LockerRoomServlet {
 	private void promptDisconnect(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
+		///
+		for (LockerRoomClient c : LockerRoomClient.getLrcList()){
+			System.out.println(c.getUsername());
+		}
+		///
 		getUser(username).disconnectFromServer();
 		request.getSession().setAttribute("status", "You have left the room...");
 		request.getRequestDispatcher("disconnected.jsp").forward(request,response);

@@ -3,7 +3,6 @@ package com.LockerRoom.Utils;
 import java.util.Base64;
 import java.util.Random;
 import java.util.regex.Pattern;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;

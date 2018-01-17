@@ -1,36 +1,15 @@
 package com.LockerRoom.Utils;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.Provider;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.regex.Pattern;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.CipherSpi;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * This class is in charge of user registration, login verification, and password
@@ -55,14 +34,7 @@ public class LockerRoomRegistrar {
 	 * @see #addUserToFile(String, String)
 	 */
 	public static synchronized boolean registerUser(String username, String pw) throws IOException{
-//		HashMap<String,String> registeredUsers = getRegisteredUsers();
-//		if (checkAvailability(registeredUsers, username)){
-//			addUserToFile(username, pw);
-//			return true;
-//		} else {
-//			return false;
-//		}
-		
+
 		if (!checkUserExist(username)){
 			addUserToFile(username, pw);
 			return true;
@@ -126,16 +98,6 @@ public class LockerRoomRegistrar {
 		}
 		return false;
 	}
-	
-//	private static boolean checkAvailability(HashMap<String,String> registered, String desiredName){
-//	boolean isAvailable = true;
-//	for (int i = 0; i < registered.size(); i++){
-//		if (registered.get(desiredName) != null){
-//			isAvailable = false;
-//		}
-//	}
-//	return isAvailable;
-//}
 	
 	/**
 	 * This checkPW() method takes an String inputs of username and password
@@ -214,8 +176,6 @@ public class LockerRoomRegistrar {
 	    HashMap<String,String> creds = new HashMap<String,String>();
 		try {
 			File file = new File("users.txt");
-			//File file = new File(System.getProperty("user.home") + "\\Documents\\git\\LockerRoom\\users.txt");
-			//On server, would need to modify the directory
 			BufferedReader br = new BufferedReader(new FileReader(file));
 		    String line;
 		    

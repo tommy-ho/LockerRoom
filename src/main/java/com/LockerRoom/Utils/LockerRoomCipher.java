@@ -40,7 +40,6 @@ class LockerRoomCipher {
 	 */
 	static String encryptPW(String pw){
 		byte[] pwBytes = pw.getBytes();
-    	//byte[] keyBytes = "0123456789abcdef".getBytes();
 		byte[] keyBytes = getKeyBytes();
     	SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
     	String encodedIV = null;
@@ -48,14 +47,6 @@ class LockerRoomCipher {
         try {
         	Cipher ciph = Cipher.getInstance("AES/CBC/PKCS5Padding");
             ciph.init(Cipher.ENCRYPT_MODE, keySpec);
-            
-            ////////////////////printing encrypted, pre-encoded bytes
-        	for (byte b : ciph.doFinal(pwBytes)){
-    			System.out.print(b);
-    		}
-    		System.out.println();
-    		///////////////////////
-    		
             pw = Base64.getEncoder().encodeToString(ciph.doFinal(pwBytes));
             encodedIV = Base64.getEncoder().encodeToString(ciph.getIV());
             encodedKeyBytes = Base64.getEncoder().encodeToString(keyBytes);
@@ -84,16 +75,8 @@ class LockerRoomCipher {
     	String[] lineArray= pw.split(Pattern.quote("|||"));
 
 		byte[] pwBytes = Base64.getDecoder().decode(lineArray[2].getBytes());
-		
-		/////////////////////printing decoded, still encrypted bytes
-		for (byte b : pwBytes){
-			System.out.print(b);
-		}
-		System.out.println();
-		//////////////////////
     	byte[] keyBytes = Base64.getDecoder().decode(lineArray[0].getBytes());
 		byte[] ivBytes = Base64.getDecoder().decode(lineArray[1].getBytes());
-    	//byte[] keyBytes = "0123456789abcdef".getBytes();
     	SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
         try {
 			Cipher ciph = Cipher.getInstance("AES/CBC/PKCS5Padding");

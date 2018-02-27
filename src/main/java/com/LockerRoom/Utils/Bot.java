@@ -33,7 +33,7 @@ public class Bot extends LockerRoomClient implements Runnable {
 					//Avoid interpreting bot messages as commands
 					if (!unameSplitCmd[0].equals(username)){
 						sendMessageToServer(this, doCommand(unameSplitCmd[1]));
-						//modify the command to record only commands
+						//Modify the command to record only commands
 					}
 				}
 			}

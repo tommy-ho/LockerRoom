@@ -39,7 +39,7 @@ public class DeleteAccountServlet extends LockerRoomServlet {
 			} else {
 				request.getSession().setAttribute("status", "Mismatched passwords, try again:");
 				request.getRequestDispatcher("deleteaccount.jsp").forward(request, response);
-				//return that password doesnt match
+				//return that password doesn't match
 			}
 			
 

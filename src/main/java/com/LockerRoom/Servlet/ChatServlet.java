@@ -120,11 +120,6 @@ public class ChatServlet extends LockerRoomServlet {
 	private void promptDisconnect(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
-		///
-		for (LockerRoomClient c : LockerRoomClient.getLrcList()){
-			System.out.println(c.getUsername());
-		}
-		///
 		getUser(username).disconnectFromServer();
 		request.getSession().setAttribute("status", "You have left the room...");
 		request.getRequestDispatcher("disconnected.jsp").forward(request,response);
